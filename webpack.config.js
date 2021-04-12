@@ -1,11 +1,17 @@
 var path = require('path')
-
+var fs=require('fs')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 var webpackConfig = {
   mode: 'production',
   entry: {
     scatterplot: './scatterplot_hist.js'
+  },
+  devServer: {
+    https: {
+      key: fs.readFileSync('localhost.key'),
+      cert: fs.readFileSync('localhost.crt'),
+    },
   },
   output: {
     filename: "[name].js",
