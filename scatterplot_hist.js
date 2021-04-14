@@ -37,17 +37,20 @@
    **/
    updateAsync: function(data, element, config, queryResponse, details, doneRendering){
      // set the dimensions and margins of the graph
-    
+
+		// loop through the data with the first dimension's label used as key to find all the x and y values
      var dataArray = []    
      data.forEach((d) => {
      dataArray.push(d[queryResponse.fields.dimensions[0].name].value)});
      var objectArray = [] 
      dataArray.forEach((line) => { objectArray.push(JSON.parse(line)) } );
+    
+     // assign the X and Y values to an array to parse through for the coordinates of the density graph
      var xAndY = []
      objectArray.forEach((obj) => { 
        var tempObj = {}; 
-       tempObj['x'] = obj.objects[0]; 
-       tempObj['y'] = obj.objects[1]; 
+       tempObj['x'] = obj[0]; 
+       tempObj['y'] = obj[1]; 
        xAndY.push(tempObj)
      });
      const x = []
@@ -67,7 +70,8 @@
  for(var i = 0; i < N; i++){
    t[i] = a + step * i;
  }
- console.log(x,y)
+
+// pass X and Y into standard Plotly objects and API
  var trace1 = {
    x: x,
    y: y,
@@ -107,7 +111,7 @@
  var data = [trace1, trace2, trace3, trace4];
  var layout = {
    showlegend: false,
-   autosize: false,
+   autosize: true,
    width: 600,
    height: 550,
    margin: {t: 50},
@@ -116,22 +120,22 @@
    xaxis: {
      domain: [0, 0.85],
      showgrid: false,
-     zeroline: false
+     zeroline: true
    },
    yaxis: {
      domain: [0, 0.85],
      showgrid: false,
-     zeroline: false
+     zeroline: true
    },
    xaxis2: {
      domain: [0.85, 1],
      showgrid: false,
-     zeroline: false
+     zeroline: true
    },
    yaxis2: {
      domain: [0.85, 1],
      showgrid: false,
-     zeroline: false
+     zeroline: true
    }
  };
  Plotly.newPlot('myDiv', data, layout);
